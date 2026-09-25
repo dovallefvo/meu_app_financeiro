@@ -10,6 +10,8 @@ motor = "*"
 httpx = "*"
 pydantic = "*"
 python-dotenv = "*"
+pandas = "*"
+openpyxl = "*"
 
 [dev-packages]
 

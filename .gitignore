@@ -1,0 +1,66 @@
+# ==========================================
+# DADOS PESSOAIS E MIGRAÇÃO (CRÍTICO)
+# ==========================================
+# Impede que suas transações financeiras e domínio sejam versionados
+*.csv
+*.xlsx
+resultado_validacao.csv
+transacoes_legadas.csv
+comparativo.csv
+dominio.xlsx
+
+# ==========================================
+# AMBIENTE E SEGURANÇA
+# ==========================================
+# Variáveis de ambiente (senhas, strings do MongoDB)
+.env
+.env.*
+!.env.example
+
+# Ambientes Virtuais Python
+.venv/
+venv/
+env/
+ENV/
+
+# ==========================================
+# PYTHON / FASTAPI
+# ==========================================
+# Arquivos compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cache de testes e tipagem (se formos usar no futuro)
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ==========================================
+# SISTEMAS OPERACIONAIS
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ==========================================
+# IDEs E EDITORES
+# ==========================================
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm / IntelliJ
+.idea/
+*.swp
+*.swo
