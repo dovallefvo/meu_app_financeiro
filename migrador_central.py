@@ -24,7 +24,7 @@ async def migrar_dominio(caminho_excel: str):
     mapa_macro = {}
     mapa_cat = {}
 
-    print(f"---- Quantitade de linhas a serem carregadas {df_cat.size}")
+    print(f"---- Quantitade de linhas a serem carregadas {len(df_cat)}")
     for _, row in df_cat.iterrows():
         sinal = int(row['Cálculo'])
         macro = str(row['macrocategoria']).strip()
@@ -178,10 +178,10 @@ if __name__ == "__main__":
     # ==========================================
     
     # PASSO 1: Rodar para preparar o banco
-    asyncio.run(migrar_dominio('dominio.xlsx'))
+    # asyncio.run(migrar_dominio('dominio.xlsx'))
     
     # PASSO 2: Rodar para gerar o arquivo de validação local do Regex
     # asyncio.run(migrar_transacoes('transacoes_legadas.csv', exportar_csv_local=True, salvar_mongodb=False))
     
     # PASSO 3: Rodar definitivamente (cuidado, se rodar duas vezes vai duplicar no banco)
-    # asyncio.run(migrar_transacoes('transacoes_legadas.csv', exportar_csv_local=False, salvar_mongodb=True))
+    asyncio.run(migrar_transacoes('transacoes_legadas.csv', exportar_csv_local=False, salvar_mongodb=True))

@@ -175,7 +175,7 @@ class ProcessadorTransacao:
         
         if not dry_run:
             transacao.aplicar_conversao(taxas)
-            await self.repo.salvar_transacao(transacao)
+            await self.repo.inserir(transacao)
             
         return transacao.model_dump()
     
