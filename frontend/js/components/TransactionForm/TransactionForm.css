@@ -1,0 +1,17 @@
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; opacity: 0; transition: opacity 0.2s; }
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-surface { background: var(--color-surface); padding: 1.5rem; border-radius: var(--radius-md); width: 90%; max-width: 400px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-md); transform: translateY(20px); transition: transform 0.2s; }
+.modal-overlay.active .modal-surface { transform: translateY(0); }
+h2 { margin-top: 0; margin-bottom: 1.25rem; font-size: 1.25rem; color: var(--color-text-main); }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+.form-row { display: flex; gap: 0.75rem; }
+.form-row .form-group { margin-bottom: 1rem; }
+label { font-size: 0.875rem; font-weight: 500; color: var(--color-text-muted); }
+input, select { padding: 0.6rem 0.75rem; border: 1px solid #dadce0; border-radius: 4px; font-size: 1rem; font-family: inherit; }
+input:focus, select:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(26,115,232,0.2); }
+.form-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; }
+button { padding: 0.6rem 1rem; border-radius: 4px; font-size: 0.95rem; font-weight: 500; cursor: pointer; border: none; font-family: inherit; }
+.btn-text { background: transparent; color: var(--color-primary); }
+.btn-text:hover { background: rgba(26,115,232,0.1); }
+.btn-primary { background: var(--color-primary); color: white; }
+.btn-primary:hover { background: var(--color-primary-dark); }

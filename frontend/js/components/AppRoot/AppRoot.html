@@ -1,0 +1,24 @@
+<div class="app-layout">
+    <header class="top-bar">
+        <h1 class="app-title">Finanças</h1>
+        <div class="search-container">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" placeholder="Pesquisar..." class="search-input">
+        </div>
+    </header>
+    <main class="app-content">
+        <app-timeline></app-timeline>
+    </main>
+    <button class="fab" id="btn-add">+</button>
+    <nav class="bottom-nav">
+        <button class="nav-item active">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span class="nav-label">Transações</span>
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
+            <span class="nav-label">Estatísticas</span>
+        </button>
+    </nav>
+    <app-transaction-form></app-transaction-form>
+</div>
