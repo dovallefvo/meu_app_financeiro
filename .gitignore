@@ -8,6 +8,7 @@ resultado_validacao.csv
 transacoes_legadas.csv
 comparativo.csv
 dominio.xlsx
+gerador_prompt.py
 
 # ==========================================
 # AMBIENTE E SEGURANÇA
