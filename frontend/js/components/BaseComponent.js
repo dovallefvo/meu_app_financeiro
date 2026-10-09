@@ -5,32 +5,40 @@ export default class BaseComponent extends HTMLElement {
         this.componentName = componentName;
     }
     async connectedCallback() {
-        await this.render();
-        this.onMounted();
+        try {
+            await this.render();
+            this.onMounted();
+        } catch (error) {
+            console.error('[BaseComponent] Erro Crítico em <' + this.componentName + '>: ', error);
+            this.exibirErroVisual(error.message);
+        }
     }
     async render() {
-        try {
-            const basePath = '/js/components/' + this.componentName;
-            const [htmlRes, cssRes] = await Promise.all([
-                fetch(basePath + '/' + this.componentName + '.html', { cache: 'no-store' }),
-                fetch(basePath + '/' + this.componentName + '.css', { cache: 'no-store' })
-            ]);
-            if (!htmlRes.ok || !cssRes.ok) throw new Error('Recursos Ausentes');
+        const basePath = '/js/components/' + this.componentName;
+        const [htmlRes, cssRes] = await Promise.all([
+            fetch(basePath + '/' + this.componentName + '.html', { cache: 'no-store' }),
+            fetch(basePath + '/' + this.componentName + '.css', { cache: 'no-store' })
+        ]);
+        if (!htmlRes.ok || !cssRes.ok) throw new Error('Falha ao descarregar recursos físicos do componente ' + this.componentName);
 
-            const htmlText = await htmlRes.text();
-            const cssText = await cssRes.text();
+        const htmlText = await htmlRes.text();
+        const cssText = await cssRes.text();
 
-            const sheet = new CSSStyleSheet();
-            sheet.replaceSync(cssText);
-            this.shadowRoot.adoptedStyleSheets = [sheet];
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(cssText);
+        this.shadowRoot.adoptedStyleSheets = [sheet];
 
-            const template = document.createElement('template');
-            template.innerHTML = htmlText;
-            this.shadowRoot.appendChild(template.content.cloneNode(true));
-        } catch (error) {
-            console.error('[BaseComponent] Erro ' + this.componentName + ':', error);
-            this.shadowRoot.innerHTML = "<p style='color:red;'>Erro estrutural.</p>";
-        }
+        const template = document.createElement('template');
+        template.innerHTML = htmlText;
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+    exibirErroVisual(mensagem) { 
+    this.shadowRoot.innerHTML = `
+        <div style="padding: 1.5rem; background: #fce8e6; color: #c5221f; border-radius: 8px; font-family: system-ui; margin: 1rem;">
+        <strong>Erro no Componente [${this.componentName}]</strong>
+        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">${mensagem}</p>
+        </div>
+    `; 
     }
     $(selector) { return this.shadowRoot.querySelector(selector); }
     onMounted() {}

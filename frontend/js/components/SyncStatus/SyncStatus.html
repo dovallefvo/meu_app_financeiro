@@ -1,0 +1,28 @@
+<div class="sync-container" style="display: inline-block;">
+    <button id="btn-sync" class="btn-icon" style="background: none; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; padding: 6px 12px; display: flex; align-items: center; gap: 6px; color: #5f6368;" title="Status de Sincronização">
+        <svg id="sync-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" style="transition: stroke 0.3s;">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.34-11.1l5.5 5.5"/>
+        </svg>
+        <span style="font-size: 0.9rem; font-weight: 500;">Sync</span>
+    </button>
+</div>
+
+<!-- Modal de Sincronização Isolado -->
+<div class="modal-overlay-sync" id="modal-sync">
+    <div class="modal-surface-sync">
+        <h2 style="margin-top: 0; color: #202124;">Sincronização na Nuvem</h2>
+        <div style="margin: 1.5rem 0;">
+            <p id="sync-text" style="font-size: 1.1rem; font-weight: 500; color: #1a73e8;">Verificando itens...</p>
+            <progress id="sync-progress" value="0" max="100" style="width: 100%; height: 8px; border-radius: 4px; margin-top: 10px;"></progress>
+            
+            <div id="sync-details-box" class="sync-details" style="display: none;">
+                <strong>Última Sincronização:</strong> <span id="sync-time">--</span>
+                <ul id="sync-list"></ul>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="button" id="btn-fechar-sync" style="background: white; border: 1px solid #ccc; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Fechar</button>
+            <button type="button" id="btn-forcar-sync" style="background: #1a73e8; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Sincronizar Agora</button>
+        </div>
+    </div>
+</div>

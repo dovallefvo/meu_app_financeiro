@@ -1,0 +1,22 @@
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.anim-spin { animation: spin 1.5s linear infinite; }
+.status-orange { stroke: #f39c12 !important; }
+.status-green { stroke: #2ecc71 !important; }
+.status-red { stroke: #e74c3c !important; }
+
+/* Configuração estrita do Modal para flutuar acima de tudo */
+.modal-overlay-sync {
+    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6); z-index: 9999;
+    align-items: center; justify-content: center;
+}
+.modal-overlay-sync.active { display: flex; }
+.modal-surface-sync {
+    background: white; padding: 24px; border-radius: 8px;
+    width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.sync-details {
+    font-size: 0.9rem; color: #5f6368; margin-top: 16px; background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #e0e0e0;
+}
+.sync-details ul { margin: 8px 0 0 20px; padding: 0; }
+.sync-details li { margin-bottom: 4px; }

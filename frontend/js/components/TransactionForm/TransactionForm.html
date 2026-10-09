@@ -10,16 +10,18 @@
             <div class="form-row">
                 <div class="form-group" style="flex: 1;">
                     <label>Moeda</label>
-                    <select id="moeda" required></select>
+                    <input type="text" id="moeda" list="lista-moedas" required>
+                    <datalist id="lista-moedas"></datalist>
                 </div>
                 <div class="form-group" style="flex: 2;">
-                    <label>Valor</label>
+                    <label id="label-valor">Valor</label>
                     <input type="number" id="valor" step="0.01" min="0.01" required>
                 </div>
             </div>
             <div class="form-group">
                 <label>Forma de Pagamento</label>
-                <select id="forma-pagamento" required></select>
+                <input type="text" id="forma-pagamento" list="lista-formas-pagamento" required>
+                <datalist id="lista-formas-pagamento"></datalist>
             </div>
             <div class="form-group">
                 <label>Descrição</label>
@@ -28,20 +30,24 @@
             </div>
             <div class="form-group">
                 <label>Tipo</label>
-                <select id="tipo" required></select>
+                <input type="text" id="tipo" list="lista-tipos">
+                <datalist id="lista-tipos"></datalist>
             </div>
             <div class="form-row">
                 <div class="form-group" style="flex: 1;">
                     <label>Categoria</label>
-                    <input type="text" id="categoria" required>
+                    <input type="text" id="categoria" list="lista-categorias">
+                    <datalist id="lista-categorias"></datalist>
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label>Subcategoria</label>
-                    <input type="text" id="subcategoria">
+                    <input type="text" id="subcategoria" list="lista-subcategorias">
+                    <datalist id="lista-subcategorias"></datalist>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="button" id="btn-cancelar" class="btn-text">Cancelar</button>
+                <button type="button" id="btn-excluir" class="btn-danger" style="display:none;">Excluir</button>
+                <button type="button" id="btn-cancelar" class="btn-text" style="margin-right:auto;">Cancelar</button>
                 <button type="submit" class="btn-primary">Salvar</button>
             </div>
         </form>

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional, Dict
 from pydantic import BaseModel, Field, model_validator
 
@@ -8,6 +8,10 @@ from pydantic import BaseModel, Field, model_validator
 PRIORIDADE_ALTA = 10
 PRIORIDADE_MEDIA = 30
 PRIORIDADE_BAIXA = 50
+
+# Helper para gerar o timestamp UTC correto
+def utc_now():
+    return datetime.now(timezone.utc)
 
 # ==========================================
 # SUPERCLASSE (LAYER SUPERTYPE)
@@ -19,8 +23,8 @@ class EntidadeBase(BaseModel):
     """
     id: Optional[str] = Field(default=None, alias="_id")
     ativo: bool = True
-    criado_em: datetime = Field(default_factory=datetime.utcnow)
-    atualizado_em: datetime = Field(default_factory=datetime.utcnow)
+    criado_em: datetime = Field(default_factory=utc_now)
+    atualizado_em: datetime = Field(default_factory=utc_now)
 
     class Config:
         populate_by_name = True
@@ -31,7 +35,7 @@ class EntidadeBase(BaseModel):
         """Sempre que a entidade for manipulada via Pydantic, atualiza o timestamp."""
         # Se os dados estão vindo do banco (já possuem _id), tocamos no atualizado_em
         if "_id" in values or "id" in values:
-            values["atualizado_em"] = datetime.utcnow()
+            values["atualizado_em"] = utc_now()
         return values
 
 # ==========================================

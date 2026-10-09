@@ -1,24 +1,81 @@
-<div class="app-layout">
-    <header class="top-bar">
-        <h1 class="app-title">Finanças</h1>
-        <div class="search-container">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <input type="text" placeholder="Pesquisar..." class="search-input">
+
+<div style="display: flex; flex-direction: column; height: 100vh; background: #f4f6f8;">
+    <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: white; border-bottom: 1px solid #e0e0e0; z-index: 10; gap: 20px;">
+        <h1 class="app-title" style="margin: 0; color: #1a73e8; font-size: 1.4rem; font-weight: 500; white-space: nowrap;">Finanças</h1>
+        <div class="search-filter-container" style="display: flex; gap: 16px; align-items: center; justify-content: flex-end; width: 100%;">
+            <div class="search-wrapper" style="position: relative; width: 100%; max-width: 450px;">
+                <input type="text" id="pesquisa-rapida" placeholder="Pesquisar..." class="search-input" style="width: 100%; padding: 0.5rem 1rem 0.5rem 2.2rem; border-radius: 20px; border: 1px solid #dadce0; background: #f1f3f4; outline: none; font-size: 0.95rem; box-sizing: border-box;">
+                <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #5f6368;">🔍</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
+                <sync-status></sync-status>
+            </div>
         </div>
     </header>
-    <main class="app-content">
+
+    <div id="chips-container" style="padding: 10px 24px; border-bottom: 1px solid #e0e0e0; background: #fafafa; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <div id="btn-abrir-modal-filtros" style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: #1a73e8; font-weight: 500; font-size: 0.9rem;" title="Abrir Filtros">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="14" y1="18" x2="20" y2="18"/></svg>
+            <span>Filtros</span>
+        </div>
+        <div id="chips-lista" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;"></div>
+    </div>
+
+    <main class="app-content" id="main-content" style="flex: 1; overflow-y: auto; padding: 24px; padding-bottom: 90px; position: relative;">
         <app-timeline></app-timeline>
     </main>
-    <button class="fab" id="btn-add">+</button>
-    <nav class="bottom-nav">
-        <button class="nav-item active">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span class="nav-label">Transações</span>
-        </button>
-        <button class="nav-item">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20h4V4h-4v16zm-6 0h4v-8H4v8zM16 9v11h4V9h-4z"/></svg>
-            <span class="nav-label">Estatísticas</span>
-        </button>
-    </nav>
+
+    <!-- MODAL DE FILTROS AVANÇADOS -->
+    <div id="modal-filtros" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 8px; width: 90%; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            
+            <div style="padding: 16px 24px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; color: #202124; font-size: 1.2rem;">Filtros Avançados</h3>
+                <button id="btn-fechar-modal-filtros" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #5f6368;">&times;</button>
+            </div>
+            
+            <div style="padding: 24px; overflow-y: auto; flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 500; color: #5f6368;">Período (Data De - Até)</label>
+                    <div style="display: flex; gap: 6px; margin-top: 6px; align-items: center;">
+                        <input type="date" id="filtro-data-inicio" min="2024-05-01" style="padding: 8px; border: 1px solid #dadce0; border-radius: 4px; font-size: 0.9rem; flex: 1;">
+                        <span>-</span>
+                        <input type="date" id="filtro-data-fim" style="padding: 8px; border: 1px solid #dadce0; border-radius: 4px; font-size: 0.9rem; flex: 1;">
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 500; color: #5f6368;">Valor (Mín - Máx)</label>
+                    <div style="display: flex; gap: 6px; margin-top: 6px; align-items: center;">
+                        <input type="number" id="filtro-valor-min" placeholder="Mín" style="padding: 8px; border: 1px solid #dadce0; border-radius: 4px; font-size: 0.9rem; flex: 1;">
+                        <span>-</span>
+                        <input type="number" id="filtro-valor-max" placeholder="Máx" style="padding: 8px; border: 1px solid #dadce0; border-radius: 4px; font-size: 0.9rem; flex: 1;">
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 500; color: #5f6368;">Moedas</label>
+                    <div style="margin-top: 6px;"><tag-multiselect id="filtro-moedas"></tag-multiselect></div>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem; font-weight: 500; color: #5f6368;">Forma de Pagamento</label>
+                    <div style="margin-top: 6px;"><tag-multiselect id="filtro-formas"></tag-multiselect></div>
+                </div>
+                <div style="grid-column: 1 / -1;">
+                    <label style="font-size: 0.85rem; font-weight: 500; color: #5f6368;">Categoria / Subcategoria</label>
+                    <div style="margin-top: 6px;"><tree-view id="filtro-tree"></tree-view></div>
+                </div>
+            </div>
+            
+            <div style="padding: 16px 24px; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; border-radius: 0 0 8px 8px;">
+                <button id="btn-filtro-padrao" style="background: transparent; border: 1px solid #dadce0; padding: 8px 16px; border-radius: 4px; color: #5f6368; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    🧹 Padrão
+                </button>
+                <button id="btn-aplicar-filtro" style="background: #1a73e8; border: none; padding: 8px 24px; border-radius: 4px; color: white; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                    ✅ Aplicar filtro
+                </button>
+            </div>
+        </div>
+    </div>
+
     <app-transaction-form></app-transaction-form>
+    <button id="btn-nova-transacao" class="fab" style="position: fixed; bottom: 80px; right: 24px; background: #1a73e8; color: white; border: none; border-radius: 50%; width: 56px; height: 56px; font-size: 28px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000; display: flex; align-items: center; justify-content: center;">+</button>
 </div>

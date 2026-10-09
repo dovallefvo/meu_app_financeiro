@@ -1,30 +1,33 @@
+import AppRoot from './components/AppRoot/AppRoot.js';
+import Timeline from './components/Timeline/Timeline.js';
+import TransactionForm from './components/TransactionForm/TransactionForm.js';
+import SyncStatus from './components/SyncStatus/SyncStatus.js';
 import Database from './core/Database.js';
+import SyncEngine from './core/SyncEngine.js';
 import { store } from './store/AppStore.js';
-import Transacao from './models/Transacao.js';
 
-async function bootstrap() {
-    const db = new Database();
-    await db.inicializar();
+console.log('[Bootstrap] A inicializar a infraestrutura e a registar componentes...');
 
-    const doms = await db.listarTodas('dominios');
-    if (doms.length === 0) {
-        await db.salvar('dominios', { tipo: 'moedas', valores: ['BRL', 'EUR', 'USD'] });
-        await db.salvar('dominios', { tipo: 'formas_pagamento', valores: ['PIX', 'Cartão de Crédito', 'Cartão de Débito', 'Dinheiro'] });
-        await db.salvar('dominios', { tipo: 'macro_categorias', valores: ['Despesas', 'Receitas'] });
+// Registo explícito de todos os Custom Elements de forma centralizada e segura
+if (!customElements.get('app-root')) customElements.define('app-root', AppRoot);
+if (!customElements.get('app-timeline')) customElements.define('app-timeline', Timeline);
+if (!customElements.get('app-transaction-form')) customElements.define('app-transaction-form', TransactionForm);
+if (!customElements.get('sync-status')) customElements.define('sync-status', SyncStatus);
+
+async function iniciarApp() {
+    try {
+        const db = new Database();
+        await db.inicializar();
+        
+        await store.atualizarDoBanco(db);
+        
+        const syncEngine = new SyncEngine(db, store);
+        syncEngine.iniciar();
+        
+        console.log('[Bootstrap] Aplicação iniciada com sucesso.');
+    } catch (erro) {
+        console.error('[Bootstrap] ❌ Erro crítico ao iniciar aplicação:', erro);
     }
-
-    await store.atualizarDoBanco(db);
-
-    document.addEventListener('salvar-transacao-global', async (e) => {
-        const novaTransacao = new Transacao(e.detail);
-        await db.salvar('transacoes', novaTransacao.toJSON());
-        await store.atualizarDoBanco(db);
-    });
-
-    document.addEventListener('excluir-transacao-global', async (e) => {
-        await db.excluir('transacoes', e.detail);
-        await store.atualizarDoBanco(db);
-    });
 }
 
-bootstrap().catch(console.error);
+iniciarApp();
